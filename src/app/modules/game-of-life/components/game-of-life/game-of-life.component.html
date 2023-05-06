@@ -1,0 +1,74 @@
+<div class="wrapper">
+  <div class="controls">
+    <div class="controls-buttons">
+      <button (click)="reset()">Reset</button>
+      <button (click)="incrementalyApplyRule()" [disabled]="timerId">
+        Apply Rule
+      </button>
+      <button (click)="simulate()">Run simulation</button>
+      <button (click)="stopSimulation()">Stop Simulation</button>
+      <select
+        [disabled]="timerId"
+        [value]="selectedNeighborhood"
+        (change)="handleNeighborhoodTypeSelection($event)">
+        <option value="moore">Moore type</option>
+        <option value="neumann">Neumann type</option>
+      </select>
+      <select
+        [disabled]="timerId"
+        [value]="selectedInitialState"
+        (change)="handleInitialStateChange($event)">
+        <option value="random">Random</option>
+        <option value="custom">Custom</option>
+      </select>
+      <form
+        *ngIf="selectedInitialState === 'custom'"
+        [formGroup]="customCellValueForm"
+        (ngSubmit)="submitCustomCell()">
+        <input
+          type="number"
+          [min]="0"
+          [max]="49"
+          formControlName="row"
+          placeholder="Row index, starting from 0" />
+        <input
+          type="number"
+          [min]="0"
+          [max]="49"
+          formControlName="col"
+          placeholder="Column index, starting from 0" />
+        <select formControlName="value">
+          <option value="1">Alive</option>
+          <option value="0">Dead</option>
+        </select>
+        <button type="submit" [disabled]="!customCellValueForm.valid">
+          Add cell
+        </button>
+      </form>
+      <span>Current generation: {{ generation }}</span>
+    </div>
+  </div>
+  <canvas #gameoflife></canvas>
+  <h3>Game of life rules</h3>
+  <ul>
+    <li>Any given cell have 2 states: alive(colored) or dead (white)</li>
+    <li>Neighbors: each cell have neighbors</li>
+    <li>Supported type of neighborhood:</li>
+    <ul>
+      <li>
+        Moore neighborhood - all touching cells: vertical, horizontal or
+        diagonal are considered neighbors
+      </li>
+      <li>
+        Von Neumann neighborhood - touching vertical and horizontal cells, plus
+        one shifted by axis for each neighbor
+      </li>
+    </ul>
+    <li>If cell is alive and have less than 2 alive neighbors it will die</li>
+    <li>If cell is alive and have 2 or 3 alive neighbors it will stay alive</li>
+    <li>If cell alive and have more than 3 alive neighbors it will die</li>
+    <li>
+      If cell is dead and have exactly 3 alive neighbors it will become alive
+    </li>
+  </ul>
+</div>
