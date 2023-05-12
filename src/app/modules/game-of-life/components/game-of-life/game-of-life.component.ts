@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import { CellState } from 'src/app/shared/interface/cellState.interface';
 import { Utils } from 'src/app/utils/Utils';
@@ -23,12 +22,10 @@ export class GameOfLifeComponent implements AfterViewInit {
   public generation = 0;
   public selectedNeighborhood: 'moore' | 'neumann' = 'moore';
   public selectedInitialState: 'random' | 'custom' = 'random';
-  public customCellValueForm!: FormGroup;
   public timerId: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.initCells(true);
-    this.initForm();
   }
 
   ngAfterViewInit(): void {
@@ -39,26 +36,17 @@ export class GameOfLifeComponent implements AfterViewInit {
     this.render();
   }
 
-  private initForm() {
-    this.customCellValueForm = this.fb.group({
-      row: [0, [Validators.required, Validators.min(0), Validators.max(49)]],
-      col: [0, [Validators.required, Validators.min(0), Validators.max(49)]],
-      value: ['', [Validators.required]],
-    });
-  }
-
-  public submitCustomCell() {
-    const { row, col, value } = this.customCellValueForm.value;
-
-    this.cells[row][col] = Number(value) as CellState;
-    this.render();
-    this.customCellValueForm.reset();
-  }
-
   public reset() {
     this.generation = 0;
     this.stopSimulation();
     this.initCells(this.selectedInitialState === 'random' ? true : false);
+    this.render();
+  }
+
+  public onSetCustomInitialState(cells: Array<Array<CellState>>): void {
+    this.generation = 0;
+    this.stopSimulation();
+    this.cells = cells;
     this.render();
   }
 

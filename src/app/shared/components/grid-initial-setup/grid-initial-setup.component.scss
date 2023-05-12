@@ -1,0 +1,27 @@
+.grid-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+
+    .grid-controls {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+mat-grid-list {
+    height: 500px;
+    width: 500px;
+}
+
+.alive {
+    background-color: lightblue;
+}
+
+.dead {
+    background-color: lightcoral;
+}
