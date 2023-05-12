@@ -7,6 +7,7 @@ import { Utils } from 'src/app/utils/Utils';
 const WIDTH = 500;
 const HEIGHT = 500;
 const RESOLUTION = 10;
+const TIME_PER_GENERATION = 200;
 
 @Component({
   selector: 'app-game-of-life',
@@ -55,7 +56,7 @@ export class GameOfLifeComponent implements AfterViewInit {
       this.applyRule();
       this.render();
       this.generation += 1;
-    }, 1000);
+    }, TIME_PER_GENERATION);
   }
 
   public stopSimulation() {
