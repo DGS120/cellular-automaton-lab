@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { cloneDeep, random } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { CellState } from 'src/app/shared/interface/cellState.interface';
 import { Utils } from 'src/app/utils/Utils';
 
