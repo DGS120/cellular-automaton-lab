@@ -3,11 +3,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { CellState } from 'src/app/shared/interface/cellState.interface';
 import { Utils } from 'src/app/utils/Utils';
-
-const WIDTH = 500;
-const HEIGHT = 500;
-const RESOLUTION = 10;
-const TIME_PER_GENERATION = 200;
+import { CANVAS_DEFAULT_CONFIG } from 'src/app/utils/canvas-default-configuration';
 
 @Component({
   selector: 'app-game-of-life',
@@ -30,8 +26,8 @@ export class GameOfLifeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.grid.nativeElement.width = WIDTH;
-    this.grid.nativeElement.height = HEIGHT;
+    this.grid.nativeElement.width = CANVAS_DEFAULT_CONFIG.WIDTH;
+    this.grid.nativeElement.height = CANVAS_DEFAULT_CONFIG.HEIGHT;
 
     this.ctx = this.grid.nativeElement.getContext('2d')!;
     this.render();
@@ -56,7 +52,7 @@ export class GameOfLifeComponent implements AfterViewInit {
       this.applyRule();
       this.render();
       this.generation += 1;
-    }, TIME_PER_GENERATION);
+    }, CANVAS_DEFAULT_CONFIG.TIME_PER_GENERATION);
   }
 
   public stopSimulation() {
@@ -72,17 +68,27 @@ export class GameOfLifeComponent implements AfterViewInit {
 
   private initCells(random: boolean): void {
     if (random) {
-      this.cells = new Array(HEIGHT / RESOLUTION)
+      this.cells = new Array(
+        CANVAS_DEFAULT_CONFIG.HEIGHT / CANVAS_DEFAULT_CONFIG.RESOLUTION
+      )
         .fill(0)
         .map(() =>
-          new Array(WIDTH / RESOLUTION)
+          new Array(
+            CANVAS_DEFAULT_CONFIG.WIDTH / CANVAS_DEFAULT_CONFIG.RESOLUTION
+          )
             .fill(0)
             .map(() => Utils.getRandomState(0.8))
         );
     } else {
-      this.cells = new Array(HEIGHT / RESOLUTION)
+      this.cells = new Array(
+        CANVAS_DEFAULT_CONFIG.HEIGHT / CANVAS_DEFAULT_CONFIG.RESOLUTION
+      )
         .fill(0)
-        .map(() => new Array(WIDTH / RESOLUTION).fill(0));
+        .map(() =>
+          new Array(
+            CANVAS_DEFAULT_CONFIG.WIDTH / CANVAS_DEFAULT_CONFIG.RESOLUTION
+          ).fill(0)
+        );
     }
   }
 
@@ -91,10 +97,10 @@ export class GameOfLifeComponent implements AfterViewInit {
       row.forEach((cell, colIndex) => {
         this.ctx.beginPath();
         this.ctx.rect(
-          colIndex * RESOLUTION,
-          rowIndex * RESOLUTION,
-          RESOLUTION,
-          RESOLUTION
+          colIndex * CANVAS_DEFAULT_CONFIG.RESOLUTION,
+          rowIndex * CANVAS_DEFAULT_CONFIG.RESOLUTION,
+          CANVAS_DEFAULT_CONFIG.RESOLUTION,
+          CANVAS_DEFAULT_CONFIG.RESOLUTION
         );
         this.ctx.fillStyle = cell ? 'black' : 'white';
         this.ctx.fill();

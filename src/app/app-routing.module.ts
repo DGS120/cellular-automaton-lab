@@ -9,6 +9,13 @@ const routes: Routes = [
         m => m.GameOfLifeModule
       ),
   },
+  {
+    path: 'rule-30',
+    loadChildren: () =>
+      import('./modules/rule-thirty/rule-thirty.module').then(
+        m => m.RuleThirtyModule
+      ),
+  },
 ];
 
 @NgModule({

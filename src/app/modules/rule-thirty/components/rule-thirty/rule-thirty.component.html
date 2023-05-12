@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="controls-buttons">
+    <button (click)="reset()">Reset</button>
+    <button (click)="simulate()">Run simulation</button>
+    <button (click)="stopSimulation()">Stop Simulation</button>
+    <select
+      [disabled]="timerId"
+      [value]="selectedInitialState"
+      (change)="handleInitialStateChange($event)">
+      <option value="random">Random</option>
+      <option value="custom">Custom</option>
+    </select>
+    <span>Current generation: {{ generation }}</span>
+  </div>
+  <canvas #ruleThirty></canvas>
+</div>
