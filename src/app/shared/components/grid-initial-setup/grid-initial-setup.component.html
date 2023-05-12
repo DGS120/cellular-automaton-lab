@@ -1,3 +1,17 @@
-<div>
-  <mat-grid-list> </mat-grid-list>
+<div class="grid-wrapper">
+  <mat-grid-list [cols]="cols" rowHeight="fit" gutterSize="1">
+    <mat-grid-tile
+      *ngFor="let cell of cells"
+      (click)="handleClick(cell)"
+      [ngClass]="{
+        dead: cell.status === 'dead',
+        alive: cell.status === 'alive'
+      }">
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="grid-controls">
+    <button (click)="handleSubmit()">Set custom initial state</button>
+    <button (click)="reset()">Clear</button>
+  </div>
 </div>

@@ -21,34 +21,17 @@
         <option value="random">Random</option>
         <option value="custom">Custom</option>
       </select>
-      <form
-        *ngIf="selectedInitialState === 'custom'"
-        [formGroup]="customCellValueForm"
-        (ngSubmit)="submitCustomCell()">
-        <input
-          type="number"
-          [min]="0"
-          [max]="49"
-          formControlName="row"
-          placeholder="Row index, starting from 0" />
-        <input
-          type="number"
-          [min]="0"
-          [max]="49"
-          formControlName="col"
-          placeholder="Column index, starting from 0" />
-        <select formControlName="value">
-          <option value="1">Alive</option>
-          <option value="0">Dead</option>
-        </select>
-        <button type="submit" [disabled]="!customCellValueForm.valid">
-          Add cell
-        </button>
-      </form>
       <span>Current generation: {{ generation }}</span>
     </div>
   </div>
   <canvas #gameoflife></canvas>
+  <app-grid-initial-setup
+    *ngIf="selectedInitialState === 'custom'"
+    [rows]="50"
+    [cols]="50"
+    (setInitialState)="
+      onSetCustomInitialState($event)
+    "></app-grid-initial-setup>
   <h3>Game of life rules</h3>
   <ul>
     <li>Any given cell have 2 states: alive(colored) or dead (white)</li>
@@ -71,6 +54,4 @@
       If cell is dead and have exactly 3 alive neighbors it will become alive
     </li>
   </ul>
-
-  <app-grid-initial-setup></app-grid-initial-setup>
 </div>
